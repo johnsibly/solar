@@ -42,7 +42,7 @@ function fillCircle(x, y, radius, color) {
 
 function drawCircle(x, y, radius) {
     ctx.beginPath();
-    ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
+    ctx.ellipse(x, y, radius, 0.5 * radius, 0, 0, 2 * Math.PI)
     ctx.stroke(); 
 }
 
@@ -79,14 +79,14 @@ async function animateSolarSystem() {
             const distance = Math.sqrt(planet.distance);
             drawCircle(centre.x, centre.y, 10 * distance);
             const x = centre.x + 10 * distance * Math.cos(0.01745 * day * planet.degreesPerDay);
-            const y = centre.y + 10 * distance * Math.sin(0.01745 * day * planet.degreesPerDay);
+            const y = centre.y + 5 * distance * Math.sin(0.01745 * day * planet.degreesPerDay);
             
             if (planet.name === "earth") {
                 drawEarth(x, y, planet.radius);
             } else {
                 fillCircle(x, y, planet.radius, planet.color);
             }
-            drawPlanetName(x + planet.radius, y + planet.radius, planet.name);
+            drawPlanetName(x + planet.radius + 4, y + 4, planet.name);
         });
 
         // Draw the timestamp
