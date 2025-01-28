@@ -1,11 +1,26 @@
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
+const margin = 50;
+// Function to set canvas size to fit within the browser window
+function resizeCanvas() {
+    canvas.width = window.innerWidth-margin;
+    canvas.height = window.innerHeight-margin;
+    centre.x = canvas.width / 2;
+    centre.y = canvas.height / 2;
+}
+
+// Initial canvas size setup
+canvas.width = window.innerWidth-margin;
+canvas.height = window.innerHeight-margin;
+
+// Add event listener to resize canvas when the window size changes
+window.addEventListener('resize', resizeCanvas);
+const centre = {x: canvas.width / 2, y: canvas.height / 2};
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const centre = {x: canvas.width / 2, y: canvas.height / 2};
 console.log(centre);
 let solarSystem = 
    [{name: "sun", distance: 0, radius: 35 /*70*/, color: 'Gold', degreesPerDay: 0.0},
@@ -29,7 +44,13 @@ function drawCircle(x, y, radius) {
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
     ctx.stroke(); 
-  }
+}
+
+function drawPlanetName(x, y, name) {
+    ctx.fillStyle = 'black';
+    ctx.font = '12px Arial';
+    ctx.fillText(name, x, y);
+}
 
 function drawEarth(x, y, radius) {
     ctx.beginPath();
@@ -65,6 +86,7 @@ async function animateSolarSystem() {
             } else {
                 fillCircle(x, y, planet.radius, planet.color);
             }
+            drawPlanetName(x + planet.radius, y + planet.radius, planet.name);
         });
 
         // Draw the timestamp
