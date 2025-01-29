@@ -33,14 +33,14 @@ let solarSystem =
     {name: "uranus", distance: 2871, radius: 13, color: 'LightSkyBlue', degreesPerDay: 0.012},
     {name: "neptune", distance: 4497, radius: 13, color: 'RoyalBlue ', degreesPerDay: 0.006}];
 
-function fillCircle(x, y, radius, color) {
+function drawPlanet(x, y, radius, color) {
   ctx.beginPath();
   ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
   ctx.fillStyle = color;
   ctx.fill();
 }
 
-function drawCircle(x, y, radius) {
+function drawOrbitPath(x, y, radius) {
     ctx.beginPath();
     ctx.ellipse(x, y, radius, 0.5 * radius, 0, 0, 2 * Math.PI)
     ctx.stroke(); 
@@ -77,14 +77,14 @@ async function animateSolarSystem() {
         ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas for each frame
         solarSystem.forEach(planet => {
             const distance = Math.sqrt(planet.distance);
-            drawCircle(centre.x, centre.y, 10 * distance);
+            drawOrbitPath(centre.x, centre.y, 10 * distance);
             const x = centre.x + 10 * distance * Math.cos(0.01745 * day * planet.degreesPerDay);
             const y = centre.y + 5 * distance * Math.sin(0.01745 * day * planet.degreesPerDay);
             
             if (planet.name === "earth") {
                 drawEarth(x, y, planet.radius);
             } else {
-                fillCircle(x, y, planet.radius, planet.color);
+                drawPlanet(x, y, planet.radius, planet.color);
             }
             drawPlanetName(x + planet.radius + 4, y + 4, planet.name);
         });
@@ -94,7 +94,7 @@ async function animateSolarSystem() {
         ctx.font = '20px Arial';
         ctx.fillText(`Day: ${day}`, 10, 30);
 
-        await sleep(100); // Sleep for 0.1 seconds
+        await sleep(100);
     }
 }
   
